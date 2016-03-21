@@ -1,0 +1,26 @@
+{
+  "name": "doughnut",
+  "version": "1.0.0",
+  "description": "doughnut graph",
+  "main": "doughnut.js",
+  "dependencies": {
+    "jquery": "^2.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TomasRan/doughnut.git"
+  },
+  "keywords": [
+    "doughnut"
+  ],
+  "author": "tomasran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TomasRan/doughnut/issues"
+  },
+  "homepage": "https://github.com/TomasRan/doughnut#readme"
+}
