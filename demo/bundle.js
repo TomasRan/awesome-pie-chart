@@ -1,3 +1,40 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var DoughGraph = require('../doughnut.js');
+
+var doughGraph = new DoughGraph({
+	graph: {
+		outsideR: 100,
+		insideR: 60,
+		rotation: 23,
+		space: 1,
+		slices: [{
+			color: 'red',
+			percent: 0.1
+		}, {
+			color: 'blue',
+			percent: 0.7
+		}, {
+			color: 'yellow',
+			percent: 0.2
+		}]
+	},
+	description: {
+		'content': [{
+			'desc': '<span>dedw</span>',
+			'background': 'red'
+		}, {
+			'desc': '<span>dedw</span>',
+			'background': 'blue'
+		}, {
+			'desc': '<span>dwdww</span>',
+			'background': 'yellow'
+		}]	
+	}
+});
+
+$('body').append(doughGraph.getNode());
+
+},{"../doughnut.js":2}],2:[function(require,module,exports){
 /*
  * for example:
  * var doughnut = new DoughnutGraph({
@@ -159,7 +196,7 @@ function createGraph() {
 			'fill': item.color || allotColor(i),
 			'stroke': self.args.strokeColor || item.color || allotColor(i),
 			'strokeWidth': self.args.strokeColor ? self.args.strokeWidth : 0,
-			'cursor': graphConfig.callback ? 'pointer' : 'auto'
+			'cursor': 'pointer'
 		}).on('click', function() {
 			graphConfig.callback ? graphConfig.callback(i) : null;
 			console.log(i);
@@ -191,7 +228,7 @@ function createDesc(args) {
 				'data-index': i
 			}).css({
 				'display': 'inline-block',
-				'cursor': descConfig.callback ? 'pointer' : 'auto',
+				'cursor': 'pointer',
 				'width': descConfig.itemWidth || self.args.boxWidth / 2,
 				'background': item.background || allotColor(i)
 			}).html(item.desc).appendTo(descPanel);
@@ -224,3 +261,5 @@ DoughnutGraph.prototype = {
 };
 
 module.exports = DoughnutGraph;
+
+},{}]},{},[1]);
