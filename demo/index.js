@@ -8,13 +8,10 @@ var doughGraph = new DoughGraph({
 		space: 1,
 		slices: [{
 			color: 'red',
-			percent: 0.1
+			percent: 0.3
 		}, {
-			color: 'blue',
+			color: 'green',
 			percent: 0.7
-		}, {
-			color: 'yellow',
-			percent: 0.2
 		}]
 	},
 	description: {
@@ -24,10 +21,13 @@ var doughGraph = new DoughGraph({
 		}, {
 			'desc': '<span>dedw</span>',
 			'background': 'blue'
-		}, {
-			'desc': '<span>dwdww</span>',
-			'background': 'yellow'
-		}]	
+		}],
+		'itemWidth': 50,
+		'borderWidth': 1,
+		'borderColor': '333',
+		'vspace': '10px',
+		'hspace': '10px'
+			
 	}
 });
 

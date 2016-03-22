@@ -4,10 +4,10 @@
  *	'boxWidth': 200,			//宽度
  *	'boxHeight': 200,			//高度
  *	'background': 'fff',		//背景
- *	'strokeColor': '#eee',		//边框颜色
- *	'strokeWidth': 10,			//边框宽度
  *	'className': '',			//类名
  *	'graph': {
+ *		'strokeColor': '#eee',	//边框颜色
+ *		'strokeWidth': 10,		//边框宽度
  *		'className',			//类名
  *		'position': 'left',		//环形图相对于描述的位置
  *		'space': 2,				//不同颜色环之间间隔的角度
@@ -33,6 +33,8 @@
  *	},
  *	'description': {
  *		'className': '',		//类名
+ *		'borderColor': '#eee',	//边框颜色
+ *		'borderWidth': 10,		//边框宽度
  *		'content': [{
  *			'desc': '<span></span>',
  *			'background': '#eee'
@@ -109,10 +111,10 @@ var doughnutGenerator = {
 function argsCheck(args) {
 	this.args = $.extend({
 		'background': '#fff',
-		'strokeWidth': args.strokeWidth || 1,
 	}, args);
 
 	this.args.graph = $.extend({
+		'strokeWidth': args.strokeWidth || 1,
 		'space': 0,
 		'outsideR': 0,
 		'insideR': 0,
@@ -157,8 +159,8 @@ function createGraph() {
 			'data-index': i
 		}).css({
 			'fill': item.color || allotColor(i),
-			'stroke': self.args.strokeColor || item.color || allotColor(i),
-			'strokeWidth': self.args.strokeColor ? self.args.strokeWidth : 0,
+			'stroke': graphConfig.strokeColor || item.color || allotColor(i),
+			'strokeWidth': graphConfig.strokeColor ? graphConfig.strokeWidth : 0,
 			'cursor': graphConfig.callback ? 'pointer' : 'auto'
 		}).on('click', function() {
 			graphConfig.callback ? graphConfig.callback(i) : null;
@@ -183,17 +185,30 @@ function createDesc(args) {
 			'width': self.args.boxWidth,
 			'padding': 0,
 			'margin': 0,
-			'border': 0
+			'border': 0,
+			'margin-top': '-4px',	//css hack
+			'over-flow': 'hidden'
 		});
 				
 		$.each(descConfig.content, function(i, item) {
 			$(document.createElement('li')).attr({
 				'data-index': i
+			}).css('width', function() {
+				var borderWidth = 2 * descConfig.borderWidth || 0;
+				if (descConfig.itemWidth) {
+					return Math.min(descConfig.itemWidth, self.args.boxWidth - borderWidth);
+				} else {
+					return descConfig.hspace ? (self.args.boxWidth - descConfig.hspace - borderWidth) / 2 : (self.args.boxWidth - 2 * borderWidth) / 2; 
+				}
 			}).css({
 				'display': 'inline-block',
 				'cursor': descConfig.callback ? 'pointer' : 'auto',
-				'width': descConfig.itemWidth || self.args.boxWidth / 2,
-				'background': item.background || allotColor(i)
+				'height': descConfig.itemHeight,
+				'background': item.background || allotColor(i),
+				'border-style': 'solid',
+				'border-width': descConfig.borderColor ? descConfig.borderWidth : 0,
+				'border-color': descConfig.borderColor ? (descConfig.borderColor || allotColor(i)): null,
+				'margin-top': descConfig.vspace
 			}).html(item.desc).appendTo(descPanel);
 		});
 		
