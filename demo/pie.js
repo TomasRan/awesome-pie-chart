@@ -1,11 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var PieChart = require('../pie-chart.js');
 
-var graph = {
-}
-
 var pieChart = new PieChart({
-	'background': '#f7f7f7',
 	'relativePos': 'top',
 	'graph': {
 		'outsideR': 100,
@@ -14,66 +10,61 @@ var pieChart = new PieChart({
 		'space': 1,
 		'title': {
 			'fontSize':	40,
-			'content': '<span>80<span>%</span></span>'
+			'content': '<span>80<span style="font-size: 20px;">%</span></span>'
 		},
 		'slices': [{
-			'name': 'ab',
+			'name': 'slice1',
 			'color': '#f75106',
 			'percent': 0.3,
 			
 		}, {
-			'name': 'bc',
+			'name': 'slice2',
 			'color': '#13c819',
 			'percent': 0.7
 		}],
-		'callback': function(i) {alert(i);}
+		'callback': function(name) {alert(name);}
 	},
 	'description': {
 		'items': [{
-			'content': '<span><i class="sss"></i>对  123人</span>',
-			'background': '#fefefe',
-			'name': 'a'
+			'className': 'item-class',
+			'content': '<span>A</span>',
+			'name': 'item1'
 		}, {
-			'content': '<span>错  243人</span>',
-			'background': '#fefefe',
-			'name': 'b'
-		}, {
-			'content': '<span>对错 2423人</span>',
-			'name': 'c'
-		}, {
-			'content': '<span>嘚瑟 120人</span>',
-			'name': 'd'
-		}, {
-			'content': '<span>对错 2423人</span>',
-			'name': 'e'
+			'className': 'item-class',
+			'content': '<span>B</span>',
+			'name': 'item2'
 		}],
-		'callback': function(i) {alert(i);}
+		'callback': function(name) {alert(name);}
 	}
 });
 
 $('.main').append(pieChart.getNode());
 
-pieChart.fresh({
-	'slices': [{
-		'name': 'ab',
-		'percent': 0.5
-	}, {
-		'name': 'bc',
-		'percent': 0.5
-	}],
-	'items': [{
-		'name': 'a',
-		'content': '121'
-	}, {
-		'name': 'b',
-		'content': 'daewdaw'
-	}]
-});
+setTimeout(function() {
+	pieChart.fresh({
+		'slices': [{
+			'name': 'slice1',
+			'percent': 0.5
+		}, {
+			'name': 'slice2',
+			'percent': 0.5
+		}],
+		'items': [{
+			'name': 'item1',
+			'content': 'C'
+		}, {
+			'name': 'item2',
+			'content': 'D'
+		}],
+		'title': {
+			'content': 'chart'
+		}
+	});
+}, 1500);
 
 },{"../pie-chart.js":2}],2:[function(require,module,exports){
 /* * for example:
  * var pieChart = new PieChart({
- *	'background': 'fff',						//背景
  *	'className': '',							//环形图类名
  *	'relativePos': 'left',						//环形图相对于描述的位置
  *	'graph': {
@@ -176,10 +167,11 @@ var pieChartGenerator = {
 
 		getGraph: function(config) {
 			// 环形图最外层容器
-			var graph = $(document.createElement('div')).css({
-				'position': 'relative',
-				'width': config.outsideR * 2,
+			var graph = $(document.createElement('div')).attr({
 				'class': config.className || ''
+			}).css({
+				'position': 'relative',
+				'width': config.outsideR * 2
 			});
 
 			// 环形图标题
@@ -273,13 +265,12 @@ function createDesc(config) {
 
 		$.each(config.items, function(i, item) {
 			$(document.createElement('li')).attr({
+				'class': item.className || '',
 				'item-name': item.name 
 			}).css({
-				'class': item.className || '',
 				'display': 'block',
 				'float': 'left',
 				'cursor': config.callback ? 'pointer' : 'auto',
-				'background': item.background || allotColor(i),
 				'overflow': 'hidden',
 				'position': 'relative'
 			}).on('click', function() {
@@ -349,6 +340,11 @@ PieChart.prototype = {
 		var paths = self.el.find('path');
 		var slices = {};
 
+		// 刷新标题
+		if (data.title) {
+			data.title.content ? $(self.el.find('p')).html(data.title.content) : null;
+		}
+
 		// 刷新饼图部分（只能刷新饼图各个分片的大小）
 		$.each(data.slices, function(i, slice) {
 			slices[slice.name] = slice.percent * 360;	
@@ -357,7 +353,7 @@ PieChart.prototype = {
 		var startAngle = 0;
 		$.each(paths, function(i, path) {
 			var name = $(path).attr('item-name');
-			var angle = slices[name] ? slices[name] : $(path).attr('angle');
+			var angle = slices[name] ? slices[name] : parseFloat($(path).attr('angle'));
 			
 			$(path).attr({
 				'd': pieChartGenerator.svg.getSectionalPath(startAngle, startAngle + angle - graph.space, graph.insideR, graph.outsideR)	

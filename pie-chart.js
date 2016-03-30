@@ -1,6 +1,5 @@
 /* * for example:
  * var pieChart = new PieChart({
- *	'background': 'fff',						//背景
  *	'className': '',							//环形图类名
  *	'relativePos': 'left',						//环形图相对于描述的位置
  *	'graph': {
@@ -103,10 +102,11 @@ var pieChartGenerator = {
 
 		getGraph: function(config) {
 			// 环形图最外层容器
-			var graph = $(document.createElement('div')).css({
-				'position': 'relative',
-				'width': config.outsideR * 2,
+			var graph = $(document.createElement('div')).attr({
 				'class': config.className || ''
+			}).css({
+				'position': 'relative',
+				'width': config.outsideR * 2
 			});
 
 			// 环形图标题
@@ -143,8 +143,9 @@ var pieChartGenerator = {
 			var startAngle = 0;
 	
 			$.each(config.slices, function(i, item) {
+				var stopAngle = item.angle === 0 ? startAngle : (item.angle === 360 ? 360 : start    Angle + item.angle - config.space);
 				pieChartGenerator.svg.createElement('path').attr({
-					'd': pieChartGenerator.svg.getSectionalPath(startAngle, startAngle + item.angle - config.space, config.insideR, config.outsideR),
+					'd': pieChartGenerator.svg.getSectionalPath(startAngle, stopAngle, config.insideR, config.outsideR),
 					'item-name': item.name,
 					'angle': item.angle
 				}).css({
@@ -200,13 +201,12 @@ function createDesc(config) {
 
 		$.each(config.items, function(i, item) {
 			$(document.createElement('li')).attr({
+				'class': item.className || '',
 				'item-name': item.name 
 			}).css({
-				'class': item.className || '',
 				'display': 'block',
 				'float': 'left',
 				'cursor': config.callback ? 'pointer' : 'auto',
-				'background': item.background || allotColor(i),
 				'overflow': 'hidden',
 				'position': 'relative'
 			}).on('click', function() {
@@ -276,7 +276,14 @@ PieChart.prototype = {
 		var paths = self.el.find('path');
 		var slices = {};
 
+		// 刷新标题
+		// todo:支持更多属性的刷新
+		if (data.title) {
+			data.title.content ? $(self.el.find('p')).html(data.title.content) : null;
+		}
+
 		// 刷新饼图部分（只能刷新饼图各个分片的大小）
+		// todo:支持更多属性的刷新
 		$.each(data.slices, function(i, slice) {
 			slices[slice.name] = slice.percent * 360;	
 		});
@@ -284,16 +291,19 @@ PieChart.prototype = {
 		var startAngle = 0;
 		$.each(paths, function(i, path) {
 			var name = $(path).attr('item-name');
-			var angle = slices[name] ? slices[name] : $(path).attr('angle');
+			var angle = slices[name]  === undefined ? parseFloat($(path).attr('angle')) : slices[name];
+			var stopAngle = angle === 0 ? startAngle : (angle === 360 ? 360 : startAngle + angle     - graph.space);
 			
 			$(path).attr({
-				'd': pieChartGenerator.svg.getSectionalPath(startAngle, startAngle + angle - graph.space, graph.insideR, graph.outsideR)	
+				'd': pieChartGenerator.svg.getSectionalPath(startAngle, stopAngle, graph.insideR, graph.outsideR),
+				'angle': angle
 			});	
 
 			startAngle += angle;
 		});
 
 		// 刷新描述部分（只刷新每个描述item的内容部分）
+		// todo: 支持更多属性的刷新
 		$.each(data.items, function(i, item) {
 			$(self.el.find('li[item-name='+ item.name + ']')).html(item.content);
 		});

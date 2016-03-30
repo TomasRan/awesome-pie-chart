@@ -1,10 +1,6 @@
 var PieChart = require('../pie-chart.js');
 
-var graph = {
-}
-
 var pieChart = new PieChart({
-	'background': '#f7f7f7',
 	'relativePos': 'top',
 	'graph': {
 		'outsideR': 100,
@@ -13,58 +9,54 @@ var pieChart = new PieChart({
 		'space': 1,
 		'title': {
 			'fontSize':	40,
-			'content': '<span>80<span>%</span></span>'
+			'content': '<span>80<span style="font-size: 20px;">%</span></span>'
 		},
 		'slices': [{
-			'name': 'ab',
+			'name': 'slice1',
 			'color': '#f75106',
 			'percent': 0.3,
 			
 		}, {
-			'name': 'bc',
+			'name': 'slice2',
 			'color': '#13c819',
 			'percent': 0.7
 		}],
-		'callback': function(i) {alert(i);}
+		'callback': function(name) {alert(name);}
 	},
 	'description': {
 		'items': [{
-			'content': '<span><i class="sss"></i>对  123人</span>',
-			'background': '#fefefe',
-			'name': 'a'
+			'className': 'class-item',
+			'content': '<span>A</span>',
+			'name': 'item1'
 		}, {
-			'content': '<span>错  243人</span>',
-			'background': '#fefefe',
-			'name': 'b'
-		}, {
-			'content': '<span>对错 2423人</span>',
-			'name': 'c'
-		}, {
-			'content': '<span>嘚瑟 120人</span>',
-			'name': 'd'
-		}, {
-			'content': '<span>对错 2423人</span>',
-			'name': 'e'
+			'className': 'class-item',
+			'content': '<span>B</span>',
+			'name': 'item2'
 		}],
-		'callback': function(i) {alert(i);}
+		'callback': function(name) {alert(name);}
 	}
 });
 
 $('.main').append(pieChart.getNode());
 
-pieChart.fresh({
-	'slices': [{
-		'name': 'ab',
-		'percent': 0.5
-	}, {
-		'name': 'bc',
-		'percent': 0.5
-	}],
-	'items': [{
-		'name': 'a',
-		'content': '121'
-	}, {
-		'name': 'b',
-		'content': 'daewdaw'
-	}]
-});
+setTimeout(function() {
+	pieChart.fresh({
+		'slices': [{
+			'name': 'slice1',
+			'percent': 0.5
+		}, {
+			'name': 'slice2',
+			'percent': 0.5
+		}],
+		'items': [{
+			'name': 'item1',
+			'content': 'C'
+		}, {
+			'name': 'item2',
+			'content': 'D'
+		}],
+		'title': {
+			'content': 'chart'
+		}
+	});
+}, 1500);
