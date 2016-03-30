@@ -1,4 +1,5 @@
-/* * for example:
+/*
+ * for example:
  * var pieChart = new PieChart({
  *	'className': '',							//环形图类名
  *	'relativePos': 'left',						//环形图相对于描述的位置
