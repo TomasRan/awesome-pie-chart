@@ -53,10 +53,6 @@
 
 var $ = require('./node_modules/jquery/dist/jquery.js');
 
-// 默认字体
-var DEFAULT_FONT_FAMILY = 'Microsoft YaHei, arial, Helveltica, sans-serif, tahoma';
-var DEFAULT_FONT_SIZE = $(document.body).css('font-size') || '16px';
-
 // 默认颜色分配
 function allotColor(i) {
 	var colorPool = ['E32322', 'EA621F', 'F18E1C', 'FDC60B', 'F4E500', '8CBB26', '008E5B', '0696BB', '2A71B0', '444E99', '6D398B', 'C4037D'];
