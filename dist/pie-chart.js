@@ -9964,18 +9964,17 @@ var pieChartGenerator = {
 			});
 
 			if (config.title) {
-				var fontSize = parseInt(config.title.fontSize) || DEFAULT_FONT_SIZE;
-				//var titleWidth = Math.sqrt(Math.pow(config.insideR, 2) - Math.pow(fontSize / 2, 2)) * 2;
 				var titleWidth = 2 * Math.sqrt(Math.pow(config.insideR, 2) / 2);
-				$(document.createElement('p')).html(config.title.content).css({
+				$(document.createElement('p')).html(config.title.content).attr({
+					'class': config.title.className	
+				}).css({
 					'margin': 0,
 					'width': titleWidth + 'px',
 					'height': titleWidth + 'px',
 					'position': 'absolute',
 					'margin-left': -(titleWidth / 2) + 'px',
 					'margin-top': -(titleWidth / 2) + 'px',
-					'font-size': fontSize + 'px',
-					'font-family': config.title.fontFamily || DEFAULT_FONT_FAMILY,
+					'line-height': titleWidth + 'px',
 					'left': '50%',
 					'top': '50%',
 					'text-align': 'center'
@@ -10057,8 +10056,6 @@ function createDesc(config) {
 				'class': item.className || '',
 				'item-name': item.name 
 			}).css({
-				'display': 'block',
-				'float': 'left',
 				'cursor': config.callback ? 'pointer' : 'auto',
 				'overflow': 'hidden',
 				'background': item.background || 'transparent',
