@@ -1,8 +1,8 @@
 {
-  "name": "doughnut",
+  "name": "pie-chart",
   "version": "1.0.0",
-  "description": "doughnut graph",
-  "main": "doughnut.js",
+  "description": "pie chart",
+  "main": "./dist/pie-chart.js",
   "dependencies": {
     "jquery": "^2.2.2"
   },
@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TomasRan/doughnut.git"
+    "url": "git+https://github.com/TomasRan/pie-chart.git"
   },
   "keywords": [
-    "doughnut"
+    "pie-chart"
   ],
   "author": "tomasran",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TomasRan/doughnut/issues"
+    "url": "https://github.com/TomasRan/pie-chart/issues"
   },
-  "homepage": "https://github.com/TomasRan/doughnut#readme"
+  "homepage": "https://github.com/TomasRan/pie-chart#readme"
 }

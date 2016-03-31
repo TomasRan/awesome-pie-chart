@@ -1,52 +1,61 @@
 /*
- * for example:
- * var pieChart = new PieChart({
- *	'className': '',							//环形图类名
- *	'relativePos': 'left',						//环形图相对于描述的位置
- *	'graph': {
- *		'className',							//类名
- *		'strokeColor': '#eee',					//边框颜色
- *		'strokeWidth': 10,						//边框宽度
- *		'space': 2,								//不同颜色环之间间隔的角度
- *		'flipX': false,							//是否关于X轴翻转
- *		'flipY': false							//是否关于Y轴翻转
- *		'outsideR': 100,						//外径
- *		'insideR': 80,							//内径
- *		'rotation': 30,							//旋转角度
- *		'title': {								//环形图标题
- *			'content': '<span>80%</span>'		//标题内容
- *			'fontFamily': '',					//标题字体
- *			'fontSize': '12px'					//标题字体大小
- *		},
- *		'slices': [{							//分片数组
- *			'color': '#eee',
- *			'percent': 0.1,
- *			'name': 'a'
- *		}, {
- *			'color': '#fff',
- *			'percent': 0.2,
- *			'name': 'b'
- *		}],
- *		'callback': null						//点击slice分片响应的回调
- *	},
- *	'description': {
- *		'className': '',						//整个描述部分的类名
- *		'items': [{								//描述部分
- *			'content': '<span></span>',			//描述内容
- *			'className': '',					//每个描述按钮的类名
- *			'name': 'a'							//唯一标识
- *		}, {
- *			'desc': '<span></span>',
- *			'name': 'b'
- *		}],
- *		'callback': null						//点击description响应的回调
- *	}
- * });
- *
+ *	@file:			pie-chart
+ *	@author:		tomasran
+ *	@createDate:	2016-03-23
+ *	@email:			tomasran@163.com
+ * 
+ *	@example:
+ *		var pieChart = new PieChart({
+ *			'className': '',							//环形图类名
+ *			'relativePos': 'left',						//环形图相对于描述的位置
+ *			'graph': {
+ *				'className',							//类名
+ *				'strokeColor': '#eee',					//边框颜色
+ *				'strokeWidth': 10,						//边框宽度
+ *				'space': 2,								//不同颜色环之间间隔的角度
+ *				'flipX': false,							//是否关于X轴翻转
+ *				'flipY': false							//是否关于Y轴翻转
+ *				'outsideR': 100,						//外径
+ *				'insideR': 80,							//内径
+ *				'rotation': 30,							//旋转角度
+ *				'title': {								//环形图标题
+ *					'content': '<span>80%</span>'		//标题内容
+ *					'fontFamily': '',					//标题字体
+ *					'fontSize': '12px'					//标题字体大小
+ *				},
+ *				'slices': [{							//分片数组
+ *					'color': '#eee',
+ *					'percent': 0.1,
+ *					'name': 'a'
+ *				}, {
+ *					'color': '#fff',
+ *					'percent': 0.2,
+ *					'name': 'b'
+ *				}],
+ *				'clickCallback': null,					//点击slice分片响应的回调
+ *				'mouseOverCallback': null,				//鼠标移动到分片响应的回调
+ *				'mouseOutCallback': null				//鼠标离开分片响应的回调
+ *			},
+ *			'description': {
+ *				'className': '',						//整个描述部分的类名
+ *				'items': [{								//描述部分
+ *					'content': '<span></span>',			//描述内容
+ *					'className': '',					//每个描述按钮的类名
+ *					'name': 'a'							//唯一标识
+ *				}, {
+ *					'desc': '<span></span>',
+ *					'name': 'b'
+ *				}],
+ *				'callback': null						//点击description响应的回调
+ *			}
+ *		});
  */
 
+var $ = require('./node_modules/jquery/dist/jquery.js');
+
 // 默认字体
-var DEFAULT_FONT_FAMILY = 'Helveltical';
+var DEFAULT_FONT_FAMILY = 'Microsoft YaHei, arial, Helveltica, sans-serif, tahoma';
+var DEFAULT_FONT_SIZE = $(document.body).css('font-size') || '16px';
 
 // 默认颜色分配
 function allotColor(i) {
@@ -102,7 +111,6 @@ var pieChartGenerator = {
 		},
 
 		getGraph: function(config) {
-			// 环形图最外层容器
 			var graph = $(document.createElement('div')).attr({
 				'class': config.className || ''
 			}).css({
@@ -110,16 +118,17 @@ var pieChartGenerator = {
 				'width': config.outsideR * 2
 			});
 
-			// 环形图标题
 			if (config.title) {
-				var fontSize = parseInt(config.title.fontSize);
-				var titleWidth = Math.sqrt(Math.pow(config.insideR, 2) - Math.pow(fontSize / 2, 2)) * 2;
+				var fontSize = parseInt(config.title.fontSize) || DEFAULT_FONT_SIZE;
+				//var titleWidth = Math.sqrt(Math.pow(config.insideR, 2) - Math.pow(fontSize / 2, 2)) * 2;
+				var titleWidth = 2 * Math.sqrt(Math.pow(config.insideR, 2) / 2);
 				$(document.createElement('p')).html(config.title.content).css({
 					'margin': 0,
 					'width': titleWidth + 'px',
+					'height': titleWidth + 'px',
 					'position': 'absolute',
 					'margin-left': -(titleWidth / 2) + 'px',
-					'margin-top': -(fontSize / 2) + 'px',
+					'margin-top': -(titleWidth / 2) + 'px',
 					'font-size': fontSize + 'px',
 					'font-family': config.title.fontFamily || DEFAULT_FONT_FAMILY,
 					'left': '50%',
@@ -128,23 +137,20 @@ var pieChartGenerator = {
 				}).appendTo(graph);
 			}
 
-			// 构造svg
 			var svg = pieChartGenerator.svg.createElement('svg').css({
 				'width': config.outsideR * 2 + 'px',
 				'height': config.outsideR * 2 + 'px'
 			}).appendTo(graph);
 	
-			// 构造组面板
 			var transform = 'translate(' + config.outsideR + ',' + config.outsideR + ') rotate(' + config.rotation + ') scale(' + (config.flipY ? '-1': '1') + ',' + (config.flipX ? '-1' : '1') + ')';
 			var graphPanel = pieChartGenerator.svg.createElement('g').attr({
 				'transform': transform
 			}).appendTo(svg);
 	
-			// 构造分片
 			var startAngle = 0;
 	
 			$.each(config.slices, function(i, item) {
-				var stopAngle = item.angle === 0 ? startAngle : (item.angle === 360 ? 360 : start    Angle + item.angle - config.space);
+				var stopAngle = item.angle === 0 ? startAngle : (item.angle === 360 ? 360 : startAngle + item.angle - config.space);
 				pieChartGenerator.svg.createElement('path').attr({
 					'd': pieChartGenerator.svg.getSectionalPath(startAngle, stopAngle, config.insideR, config.outsideR),
 					'item-name': item.name,
@@ -153,19 +159,20 @@ var pieChartGenerator = {
 					'fill': item.color || allotColor(i),
 					'stroke': config.strokeColor || item.color || allotColor(i),
 					'strokeWidth': config.strokeColor ? config.strokeWidth : 0,
-					'cursor': config.callback ? 'pointer' : 'auto'
+					'cursor': config.clickCallback ? 'pointer' : 'auto'
 				}).appendTo(graphPanel);
 					startAngle += item.angle;
 			});	
 			
-			config.callback ? eventEntrust(svg, 'click', 'PATH', config.callback) : null;
+			config.clickCallback ? eventEntrust(svg, 'click', 'PATH', config.clickCallback) : null;
+			config.mouseOverCallback ? eventEntrust(svg, 'mouseover', 'PATH', config.mouseOverCallback) : null;
+			config.mouseOutCallback ? eventEntrust(svg, 'mouseout', 'PATH', config.mouseOutCallback) : null;
 
 			return graph;
 		}
 	}
 };
 
-// 参数检测，初始化
 function argsCheck(args) {
 	this.args = $.extend({
 		'background': '#fff',
@@ -209,6 +216,7 @@ function createDesc(config) {
 				'float': 'left',
 				'cursor': config.callback ? 'pointer' : 'auto',
 				'overflow': 'hidden',
+				'background': item.background || 'transparent',
 				'position': 'relative'
 			}).on('click', function() {
 				config.callback ? config.callback(item.name) : null;
@@ -311,4 +319,12 @@ PieChart.prototype = {
 	}
 };
 
-module.exports = PieChart;
+if (typeof define === 'function' && define.amd) {//AMD
+	define(function() {
+		return PieChart;
+	});
+} else if (typeof module !== undefined && module.exports) {//commonJs
+	module.exports = PieChart;
+} else {//global
+	window.PieChart = PieChart;
+}
