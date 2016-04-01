@@ -20,8 +20,10 @@ example 4:<br/>
 ### Installation
 `npm install xxx`
 ### Usage
+```
 var PieChart = require('pieChart')
 var pieChartExample = new PieChart({ ... })
+```
 
 ### Configuration
 
