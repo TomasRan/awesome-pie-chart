@@ -15,7 +15,11 @@ example 3:<br/>
 
 ## Documention
 ### Installation
-`npm install xxx`
+`npm install pieChart`
+
+or
+
+`bower install pieChart`
 ### Usage
 ```
 var PieChart = require('pieChart')
