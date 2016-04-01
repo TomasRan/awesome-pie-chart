@@ -1,7 +1,8 @@
 # pie-chart
 Here is the pie chart.
 Not only is it convinient for us to create a pie-chart in several minutes, but also it can provide us 
-At First,let's see what it will be look like.
+At First,let's see what it will be look like:
+[!图片丢失]()
 ## Documention
 ### Installation
 `npm install xxx`
@@ -11,7 +12,9 @@ var PieChart = require('pieChart')
 var pieChartExample = new PieChart({ ... })
 ```
 
-### Browser support
+### Configuration
+
+### Browser Support
 |ie|chrome|firefox|opera|safari|
 |:-:|:-:|:-:|:-:|:-:|
 |9+|x|x|x|x|
