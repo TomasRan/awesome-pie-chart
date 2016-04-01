@@ -13,6 +13,9 @@ example 2:<br/>
 example 3:<br/>
 ![图片丢失](http://cl.ly/1B0V1Q441N0v/Snip20160331_3.png)
 
+example 4:<br/>
+![图片丢失](http://cl.ly/1M3n330B2D1I/Snip20160401_7.png)
+
 ## Documention
 ### Installation
 `npm install xxx`
