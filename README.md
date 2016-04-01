@@ -1,4 +1,4 @@
-# pie-chart
+# awesome-pie-chart
 Here is the pie chart.
 
 Not only is it convinient for us to create a pie-chart in several minutes, but also it can provide us 
@@ -15,18 +15,16 @@ example 3:<br/>
 
 ## Documention
 ### Installation
-`npm install pieChart`
+`npm install awesome-pie-chart`
+`bower install awesome-pie-chart`
 
-or
-
-`bower install pieChart`
 ### Usage
 ```
 var PieChart = require('pieChart')
 var pieChartExample = new PieChart({ ... })
 ```
 
-### Configuration
+#### parameters
 
 ### Browser Support
 |ie|chrome|firefox|opera|safari|

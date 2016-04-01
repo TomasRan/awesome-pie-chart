@@ -1,29 +1,31 @@
-/*
- *	@file:			pie-chart
+/*********************************************************************************
+ *
+ * @file:			pie-chart
  *	@author:		tomasran
  *	@createDate:	2016-03-23
  *	@email:			tomasran@163.com
- * 
- *	@example:
+ *
+ *********************************************************************************/ 
+ 
+ /*	@example:
  *		var pieChart = new PieChart({
- *			'className': '',							//环形图类名
- *			'relativePos': 'left',						//环形图相对于描述的位置
+ *			'className': '',							//container class
+ *			'relativePos': 'left',						//relative position
  *			'graph': {
- *				'className',							//类名
- *				'strokeColor': '#eee',					//边框颜色
- *				'strokeWidth': 10,						//边框宽度
- *				'space': 2,								//不同颜色环之间间隔的角度
- *				'flipX': false,							//是否关于X轴翻转
- *				'flipY': false							//是否关于Y轴翻转
- *				'outsideR': 100,						//外径
- *				'insideR': 80,							//内径
- *				'rotation': 30,							//旋转角度
- *				'title': {								//环形图标题
- *					'content': '<span>80%</span>'		//标题内容
- *					'fontFamily': '',					//标题字体
- *					'fontSize': '12px'					//标题字体大小
+ *				'className',							
+ *				'strokeColor': '#eee',					//color of svg border
+ *				'strokeWidth': 10,						//color of svg border width
+ *				'space': 2,								//the angle between two slices
+ *				'flipX': false,							//whether turn on the axis
+ *				'flipY': false							//whether turn on the axis
+ *				'outsideR': 100,						//the outside circle's radius
+ *				'insideR': 80,							//the inside circle's radius
+ *				'rotation': 30,							//graph rotation
+ *				'title': {								//title
+ *					'className': ''						//title class
+ *					'content': '<span>80%</span>'		//title content
  *				},
- *				'slices': [{							//分片数组
+ *				'slices': [{							// slices configuration	
  *					'color': '#eee',
  *					'percent': 0.1,
  *					'name': 'a'
@@ -32,24 +34,26 @@
  *					'percent': 0.2,
  *					'name': 'b'
  *				}],
- *				'clickCallback': null,					//点击slice分片响应的回调
- *				'mouseOverCallback': null,				//鼠标移动到分片响应的回调
- *				'mouseOutCallback': null				//鼠标离开分片响应的回调
+ *				'clickCallback': null,					//callback when you click on one slice
+ *				'mouseOverCallback': null,				//callback when mouse entered the area of one slice 
+ *				'mouseOutCallback': null				//callback when mouse leave out of the area of one slice
  *			},
  *			'description': {
- *				'className': '',						//整个描述部分的类名
- *				'items': [{								//描述部分
- *					'content': '<span></span>',			//描述内容
- *					'className': '',					//每个描述按钮的类名
- *					'name': 'a'							//唯一标识
+ *				'className': '',						
+ *				'items': [{								//description items configuration
+ *					'content': '<span></span>',			//description content
+ *					'className': '',					//class of every item
+ *					'name': 'a'							//unique label
  *				}, {
  *					'desc': '<span></span>',
  *					'name': 'b'
  *				}],
- *				'callback': null						//点击description响应的回调
+ *				'callback': null						//callback of every item
  *			}
  *		});
  */
+
+/*************************************************************************************/
 
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
@@ -62,13 +66,12 @@
 		root.PieChart = factory(root.jQuery);
 	}
 })(window || {}, function($) {
-	// 默认颜色分配
+	// default color allotment
 	function allotColor(i) {
 		var colorPool = ['E32322', 'EA621F', 'F18E1C', 'FDC60B', 'F4E500', '8CBB26', '008E5B', '0696BB', '2A71B0', '444E99', '6D398B', 'C4037D'];
 		return '#' + colorPool[i % colorPool.length];
 	};
 	
-	// 事件委托
 	function eventEntrust(pNode, eventType, childNodeName, callback) {
 		pNode.on(eventType, function(e) {
 			var e = e || window.event;
@@ -81,7 +84,6 @@
 		});
 	};
 	
-	// 环形图组件生成器
 	var pieChartGenerator = {
 		svg: {
 			createElement: function(tagName) {
@@ -177,6 +179,7 @@
 		}
 	};
 	
+	// parameters check
 	function argsCheck(args) {
 		this.args = $.extend({
 			'background': '#fff',
@@ -200,7 +203,7 @@
 		});
 	};
 	
-	// 构造描述部分
+	// construct description
 	function createDesc(config) {
 		if (config) {
 			var descPanel = $(document.createElement('ul')).attr({
@@ -287,14 +290,12 @@
 			var paths = self.el.find('path');
 			var slices = {};
 
-			// 刷新标题
-			// todo:支持更多属性的刷新
+			// fresh title
 			if (data.title) {
 				data.title.content ? $(self.el.find('p')).html(data.title.content) : null;
 			}
 
-			// 刷新饼图部分（只能刷新饼图各个分片的大小）
-			// todo:支持更多属性的刷新
+			// fresh slices
 			$.each(data.slices, function(i, slice) {
 				slices[slice.name] = slice.percent * 360;
 			});
@@ -313,8 +314,7 @@
 				startAngle += angle;
 			});
 	
-			// 刷新描述部分（只刷新每个描述item的内容部分）
-			// todo: 支持更多属性的刷新
+			// fresh items
 			$.each(data.items, function(i, item) {
 				$(self.el.find('li[item-name='+ item.name + ']')).html(item.content);
 			});
