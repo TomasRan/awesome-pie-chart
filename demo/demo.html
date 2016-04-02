@@ -21,18 +21,15 @@
 					'insideR': 60,
 					'rotation': -90,
 					'space': 0,
-					'title': {
-						'fontSize': 40,
-						'content': '<span>80<span style="font-size: 20px;">%</span></span>'
-					},
+					'title': '<span>80<span style="font-size: 20px;">%</span></span>',
 					'slices': [{
 						'name': 'slice1',
 						'color': '#f75106',
-						'percent': 0.3
+						'percent': 0
 					}, {
 						'name': 'slice2',
 						'color': '#13c819',
-						'percent': 0.7
+						'percent': 1
 					}],
 					'clickCallback': function(name) {console.log('click:' + name);},
 					'mouseOverCallback': function(name) {console.log('over:' + name);},
@@ -54,14 +51,14 @@
 			});			
 
 			$('.main').append(pieChart.getNode());
-			/*setTimeout(function() {
+			setTimeout(function() {
 				pieChart.fresh({
 					'slices': [{
 						'name': 'slice1',
-					    'percent': 0.5
+					    'percent': 1 
 					}, {
 						'name': 'slice2',
-						'percent': 0.5
+						'percent': 0
 					}],
 					'items': [{
 						'name': 'item1',
@@ -74,7 +71,7 @@
 						'content': 'chart'
 					}
 				});
-			}, 1500);*/
+			}, 1500);
 		});
 	</script>
 </html>

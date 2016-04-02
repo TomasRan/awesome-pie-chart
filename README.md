@@ -1,8 +1,8 @@
 # awesome-pie-chart
-Here is the pie chart.
-
-Not only is it convinient for us to create a pie-chart in several minutes, but also it can provide us 
-At First,let's see what it will be look like:
+Here is the pie chart.<br/>
+You can customize your own pie chart. Extended space is provided.In actually, that's my purpose. In my opinion, flexibility is very important to a component. <br/>
+It's convinient for us to create a pie chart in serveral minutes by using this.At first, let's see what it will be look like, as you know:
+> word is cheap, show me the realization:
 
 example 1:<br/>
 ![图片丢失](http://cl.ly/2T0P0N3F3n37/Snip20160331_4.png)
@@ -14,17 +14,72 @@ example 3:<br/>
 ![图片丢失](http://cl.ly/1M3n330B2D1I/Snip20160401_7.png)
 
 ## Documention
+
 ### Installation
+use npm<br/>
 `npm install awesome-pie-chart`
+
+use bower<br/>
 `bower install awesome-pie-chart`
 
 ### Usage
 ```
 var PieChart = require('pieChart')
-var pieChartExample = new PieChart({ ... })
+var pieChartExample = new PieChart({
+	'className': '',
+	'relativePos': 'left',
+	'graph': {
+		'className': '',
+		'strokeColor': '#eee',
+		'stokeWidth': 10,
+		'space': 0,
+		'flipX': false,
+		'flipY': false,
+		'outsideR': 200,
+		'insideR': 160,
+		'title': '<span>80%</span>'	
+		'slices': [{
+			'color': 'red',
+			'percent': 0.2,
+			'name': 'sliceA'	
+		}, {
+			'color': 'blue',
+			'percent': 0.2,
+			'name': 'sliceB'
+		}, {
+			...			
+		}],
+		'clickCallback': function(name) {console.log(name);},
+		'mouseOverCallback': function(name) {console.log(name);},
+		'mouseOutCallback': function(name) {console.log(name);}
+	},
+	'description': {
+		'className': '',
+		'items': [{
+			'content': '<span>A</span>',
+			'className': '',
+			'name': 'a'
+		}, {
+			'content': '<span>B</span>',
+			'className': '',
+			'name': 'b'
+		}, {
+			...	
+		}],
+		'callback': function(name) {console.log(name);}
+	}	
+});
+
+$(document.body).append(pieChartExample.getNode());
 ```
 
-#### parameters
+#### configuration
+Here are the parameters which you should set when initialize the component.Be careful that the configruation is netsted, so a mistake may cause something wrong.And the validation of data should be handled outside of the component.
+
+`className`
+`relativePos`
+`graph`
+`description`
 
 ### Browser Support
 |ie|chrome|firefox|opera|safari|
