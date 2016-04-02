@@ -15,12 +15,13 @@ example 3:<br/>
 
 ## Documention
 
-### Installation
-use npm<br/>
-`npm install awesome-pie-chart`
-
-use bower<br/>
-`bower install awesome-pie-chart`
+### Install
+```
+# use npm
+$ npm install awesome-pie-chart
+# use bower
+$ bower install awesome-pie-chart
+```
 
 ### Usage
 ```
