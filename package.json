@@ -15,7 +15,9 @@
     "url": "git+https://github.com/TomasRan/pie-chart.git"
   },
   "keywords": [
-    "pie-chart"
+    "pie-chart",
+	'pie',
+	'chart'
   ],
   "author": "tomasran",
   "license": "MIT",
