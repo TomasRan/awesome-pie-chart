@@ -1,6 +1,7 @@
 # awesome-pie-chart
 Here is the pie chart.<br/>
 You can customize your own pie chart. Extended space is provided. <br/>
+Commit issues or requirements [here](https://github.com/TomasRan/awesome-pie-chart/issues).<br/>
 It's convinient for us to create a pie chart in serveral minutes by using this.At first, let's see what it will be look like, as you know: Word is cheap, show me the realization.
 
 example 1:<br/>
