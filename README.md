@@ -86,7 +86,7 @@ There is a detailed description about the attributes in [pie-chart.js](https://g
 Get the pie chart node.
 
 ` fresh `</br>
-You can use thie method to fresh your pie chart when the data is changed
+You can use this method to fresh your pie chart when the data is changed.
 
 
 ### Browser Support
