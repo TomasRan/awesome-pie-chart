@@ -22,15 +22,7 @@
 					'rotation': -90,
 					'space': 0,
 					'title': '<span>80<span style="font-size: 20px;">%</span></span>',
-					'slices': [{
-						'name': 'slice1',
-						'color': '#f75106',
-						'percent': 0
-					}, {
-						'name': 'slice2',
-						'color': '#13c819',
-						'percent': 1
-					}],
+					'slices': [],
 					'clickCallback': function(name) {console.log('click:' + name);},
 					'mouseOverCallback': function(name) {console.log('over:' + name);},
 					'mouseOutCallback': function(name) {console.log('leave:' + name);}
@@ -66,10 +58,11 @@
 					}, {
 						'name': 'item2',
 						'content': 'D'
+					}, {
+						'name': 'item3',
+						'content': 'E'	
 					}],
-					'title': {
-						'content': 'chart'
-					}
+					'title': 'chart'
 				});
 			}, 1500);
 		});

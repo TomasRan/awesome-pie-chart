@@ -1,8 +1,7 @@
 # awesome-pie-chart
 Here is the pie chart.<br/>
-You can customize your own pie chart. Extended space is provided.In actually, that's my purpose. In my opinion, flexibility is very important to a component. <br/>
-It's convinient for us to create a pie chart in serveral minutes by using this.At first, let's see what it will be look like, as you know:
-> word is cheap, show me the realization:
+You can customize your own pie chart. Extended space is provided. <br/>
+It's convinient for us to create a pie chart in serveral minutes by using this.At first, let's see what it will be look like, as you know: Word is cheap, show me the realization.
 
 example 1:<br/>
 ![图片丢失](http://cl.ly/2T0P0N3F3n37/Snip20160331_4.png)
@@ -19,6 +18,7 @@ example 3:<br/>
 ```
 # use npm
 $ npm install awesome-pie-chart
+
 # use bower
 $ bower install awesome-pie-chart
 ```
@@ -26,6 +26,7 @@ $ bower install awesome-pie-chart
 ### Usage
 ```
 var PieChart = require('pieChart')
+
 var pieChartExample = new PieChart({
 	'className': '',
 	'relativePos': 'left',
@@ -75,17 +76,24 @@ $(document.body).append(pieChartExample.getNode());
 ```
 
 #### configuration
-Here are the parameters which you should set when initialize the component.Be careful that the configruation is netsted, so a mistake may cause something wrong.And the validation of data should be handled outside of the component.
+Here are the description of the parameters.Be careful that the configruation is netsted.And the validation of data should be handled outside of the component.
 
-`className`
-`relativePos`
-`graph`
-`description`
+#####Attribute
+There is a detailed description about the attributes in [pie-chart.js](https://github.com/TomasRan/awesome-pie-chart/blob/master/pie-chart.js).
+
+#####Method
+`getNode`<br/>
+Get the pie chart node.
+
+`fresh`
+You can use thie method to fresh your pie chart when the data is changed.
+
 
 ### Browser Support
-|ie|chrome|firefox|opera|safari|
-|:-:|:-:|:-:|:-:|:-:|
-|9+|x|x|x|x|
+Currently, it supports almost all major browsers except ie8.
+
+### To Do
+- support IE8
 
 ## License
 The MIT License (MIT)
