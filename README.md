@@ -82,11 +82,11 @@ Here are the description of the parameters.Be careful that the configruation is 
 There is a detailed description about the attributes in [pie-chart.js](https://github.com/TomasRan/awesome-pie-chart/blob/master/pie-chart.js).
 
 #####Method
-`getNode`<br/>
+` getNode `<br/>
 Get the pie chart node.
 
-`fresh`
-You can use thie method to fresh your pie chart when the data is changed.
+` fresh `</br>
+You can use thie method to fresh your pie chart when the data is changed
 
 
 ### Browser Support
