@@ -2,10 +2,12 @@
 
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-Here is the pie chart.<br/>
+[](https://img.shields.io/badge/npm-0.3.0-blue.svg)
+
+Here is the awesome pie chart.<br/>
 You can customize your own pie chart. Extended space is provided. <br/>
 Commit issues or requirements [here](https://github.com/TomasRan/awesome-pie-chart/issues).<br/>
-It's convinient for us to create a pie chart in serveral minutes by using this.At first, let's see what it will be look like, as you know: Word is cheap, show me the realization.
+It's convinient for us to create a pie chart in serveral minutes by using this. At first, let's see what it will be look like, as you know: Word is cheap, show me the realization.
 
 example 1:<br/>
 ![图片丢失](http://cl.ly/2T0P0N3F3n37/Snip20160331_4.png)
@@ -80,7 +82,7 @@ $(document.body).append(pieChartExample.getNode());
 ```
 
 #### configuration
-Here are the description of the parameters.Be careful that the configruation is netsted.And the validation of data should be handled outside of the component.
+Here are the description of the parameters. Be careful that the configruation is netsted.And the validation of data should be handled outside of the component.
 
 #####Attribute
 There is a detailed description about the attributes in [pie-chart.js](https://github.com/TomasRan/awesome-pie-chart/blob/master/pie-chart.js).
