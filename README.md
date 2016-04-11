@@ -1,8 +1,7 @@
 # awesome-pie-chart
 
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
-
-[![](https://img.shields.io/badge/npm-0.3.0-blue.svg)]
+![](https://img.shields.io/badge/npm-0.3.0-blue.svg)
 
 Here is the awesome pie chart.<br/>
 You can customize your own pie chart. Extended space is provided. <br/>
