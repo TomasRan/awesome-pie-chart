@@ -73,13 +73,13 @@
 	// bind event
 	var eventEntrust = function(pNode, eventType, childNodeName, callback) {
 		pNode.on(eventType, function(e) {
-			var e = e || window.event;
+			e = e || window.event;
 			var target = e.target || event.srcElement;
 
 			if (target.nodeName.toUpperCase() === childNodeName.toUpperCase()) {
 				var name = $(target).attr('data-name');
-				if (name ) {
-					callback ? callback(name) : null;
+				if (name  && callback) {
+					callback(name);
 				}
 			}
 		});
@@ -145,7 +145,7 @@
 						'top': '50%',
 						'text-align': 'center'
 					}).html(config.title).appendTo(graph);
-				};
+				}
 	
 				// consturct svg
 				var svg = pieChartGenerator.svg.createElement('svg').css({
@@ -184,9 +184,18 @@
 					
 				}
 
-				config.clickCallback ? eventEntrust(svg, 'click', 'PATH', config.clickCallback) : null;
-				config.mouseOverCallback ? eventEntrust(svg, 'mouseover', 'PATH', config.mouseOverCallback) : null;
-				config.mouseOutCallback ? eventEntrust(svg, 'mouseout', 'PATH', config.mouseOutCallback) : null;
+				if (config.clickCallback) {
+					eventEntrust(svg, 'click', 'PATH', config.clickCallback);
+				}
+
+				if (config.mouseOverCallback) {
+					eventEntrust(svg, 'mouseover', 'PATH', config.mouseOverCallback);
+				}
+
+				if (config.mouseOutCallback) {
+					eventEntrust(svg, 'mouseout', 'PATH', config.mouseOutCallback);
+				}
+
 				return graph;
 			}
 		}
@@ -207,7 +216,7 @@
 		$.each(this.args.graph.slices, function(i, item) {
 			item.angle = (item.percent || 0) * 360;
 		});
-	};
+	}
 	
 	// construct description
 	function createDescItems(item, callback) {
@@ -220,7 +229,9 @@
 			'background': item.background || 'transparent',
 			'position': 'relative'
 		}).on('click', function() {
-			callback ? callback(item.name) : null;	
+			if (callback) {
+				callback(item.name);	
+			}
 		}).html(item.content);
 	}
 
@@ -240,14 +251,13 @@
 			
 			return descPanel;
 		}
-	};
+	}
 	
 
 	/*************************** Pie Chart Constructor ****************************/
 	function PieChart(args) {
 		argsCheck.call(this, args);
 	
-		// todo: support vml
 		this.graphEngine = 'svg';
 	
 		var self = this;
@@ -287,7 +297,7 @@
 
 			return self.el;
 		};
-	};
+	}
 
 	PieChart.prototype = {
 		constructor: PieChart,
