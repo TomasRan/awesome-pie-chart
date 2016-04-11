@@ -122,6 +122,14 @@
 				'Z'].join(' ');
 			},
 
+			generateCursorShape: function(config) {
+				if (config.clickCallback || config.mouseOverCallback || config.mouseOutCallback) {
+					return 'cursor';
+				} else {
+					return 'auto'
+				}
+			},
+
 			generateTransform: function(config) {
 				return 'translate(' +
 					config.outsideR +
@@ -140,7 +148,7 @@
 				var startAngle = 0;
 				var stopAngle = 0;
 				var slices = [];
-				var cursor = config.clickCallback ? 'pointer' : 'auto';
+				var cursor = this.generateCursorShape(config);
 				var itemSpace = {
 					0 : 0,
 					360: 0
