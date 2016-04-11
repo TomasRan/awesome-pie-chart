@@ -122,14 +122,6 @@
 				'Z'].join(' ');
 			},
 
-			generateCursorShape: function(config) {
-				if (config.clickCallback || config.mouseOverCallback || config.mouseOutCallback) {
-					return 'cursor';
-				} else {
-					return 'auto'
-				}
-			},
-
 			generateTransform: function(config) {
 				return 'translate(' +
 					config.outsideR +
@@ -148,11 +140,11 @@
 				var startAngle = 0;
 				var stopAngle = 0;
 				var slices = [];
-				var cursor = this.generateCursorShape(config);
 				var itemSpace = {
 					0 : 0,
 					360: 0
 				};
+				var cursor = config.clickCallback ? 'pointer' : 'auto';
 
 				$.each(config.slices, function(i, item) {
 					var space = itemSpace[item.angle] || config.space; 
@@ -169,9 +161,9 @@
 							'data-name': item.name,
 							'data-angle': item.angle
 						}).css({
-							'fill': item.color || allotColor(i),
-							'stroke': config.strokeColor || item.color || allotColor(i),
-							'strokeWidth': config.strokeWidth || 0,
+							//'fill': item.color || allotColor(i),
+							//'stroke': config.strokeColor || item.color || allotColor(i),
+							//'strokeWidth': config.strokeWidth || 0,
 							'cursor': cursor 
 						})
 					);
