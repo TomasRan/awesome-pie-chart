@@ -122,7 +122,7 @@
 				'Z'].join(' ');
 			},
 
-			constructTransform: function(config) {
+			generateTransform: function(config) {
 				return 'translate(' +
 					config.outsideR +
 				   	',' + 
@@ -134,7 +134,36 @@
 					',' +
 					(config.flipX ? '-1' : '1') +
 					')';
-										
+			},
+
+			generateSlices: function(config) {
+				var startAngle = 0;
+				var stopAngle = 0;
+				var slices = [];
+
+				$.each(config.slices, function(i, item) {
+					var space = item.angle === 0 ? 0 : config.space; 
+
+					if (item.angle === ROUND_ANGLE) {
+						stopAngle = ROUND_ANGLE;
+					} else {
+						stopAngle = startAngle + item.angle - space;	
+					}
+
+					slices.push(
+						pieChartGenerator.svg.createElement('path').attr({
+							'd': pieChartGenerator.svg.getSectionalPath(startAngle, stopAngle, config.insideR, config.outsideR),
+							'data-name': item.name,
+							'data-angle': item.angle
+						}).css({
+							'fill': item.color || allotColor(i),
+							'stroke': config.strokeColor || item.color || allotColor(i),
+							'strokeWidth': config.strokeWidth || 0,
+							'cursor': config.clickCallback ? 'pointer' : 'auto'
+						})
+					);
+					startAngle += item.angle;
+				});
 			},
 
 			constructTitle: function(width, height, title) {
@@ -158,7 +187,7 @@
 					'height': svgConfig.outsideR * 2 + 'px'
 				});
 				var graphPanel = this.createElement('g').attr({
-					'transform': this.constructTransform(svgConfig)
+					'transform': this.generateTransform(svgConfig)
 				}).appendTo(svg);
 
 				if (svgConfig.slices && svgConfig.slices.length === 0) {
@@ -168,30 +197,7 @@
 						'fill': '#d9d9d9'
 					}).appendTo(graphPanel);
 				} else {
-					var startAngle = 0;
-					var stopAngle = 0;
-
-					$.each(svgConfig.slices, function(i, item) {
-						var space = item.angle === 0 ? 0 : svgConfig.space; 
-
-						if (item.angle === ROUND_ANGLE) {
-							stopAngle = ROUND_ANGLE;
-						} else {
-							stopAngle = startAngle + item.angle - space;	
-						}
-
-						pieChartGenerator.svg.createElement('path').attr({
-							'd': pieChartGenerator.svg.getSectionalPath(startAngle, stopAngle, svgConfig.insideR, svgConfig.outsideR),
-							'data-name': item.name,
-							'data-angle': item.angle
-						}).css({
-							'fill': item.color || allotColor(i),
-							'stroke': svgConfig.strokeColor || item.color || allotColor(i),
-							'strokeWidth': svgConfig.strokeWidth || 0,
-							'cursor': svgConfig.clickCallback ? 'pointer' : 'auto'
-						}).appendTo(graphPanel);
-						startAngle += item.angle;
-					});
+					this.generateSlices(svgConfig).appendTo(graphPanel);
 				}
 
 				this.bindEvent(svg, 'click', 'PATH', [svgConfig.clickCallback]);
