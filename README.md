@@ -1,6 +1,7 @@
 # awesome-pie-chart
 
 ![](https://img.shields.io/badge/npm-0.3.0-blue.svg)
+[![bitHound Overall Score](https://www.bithound.io/github/TomasRan/awesome-pie-chart/badges/score.svg)](https://www.bithound.io/github/TomasRan/awesome-pie-chart)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 [![NPM](https://nodei.co/npm/awesome-pie-chart.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/awesome-pie-chart/)
