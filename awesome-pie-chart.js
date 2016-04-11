@@ -140,10 +140,15 @@
 				var startAngle = 0;
 				var stopAngle = 0;
 				var slices = [];
-				var cursor = config.callback ? 'pointer' : 'auto';
+				var cursor = config.clickCallback ? 'pointer' : 'auto';
+				var itemSpace = {
+					0 : 0,
+					360: 0
+				};
 
-				$.each(config.slices, function(i, item) {
-					var space = item.angle === 0 ? 0 : config.space; 
+				for (var i = 0; i < config.slices.length; i++) {
+					var item = config.slices[i];
+					var space = itemSpace[item.angle] || config.space; 
 
 					if (item.angle === ROUND_ANGLE) {
 						stopAngle = ROUND_ANGLE;
@@ -164,7 +169,9 @@
 						})
 					);
 					startAngle += item.angle;
-				});
+				}
+
+				return slices;
 			},
 
 			constructTitle: function(width, height, title) {
@@ -198,7 +205,7 @@
 						'fill': '#d9d9d9'
 					}).appendTo(graphPanel);
 				} else {
-					this.generateSlices(svgConfig).appendTo(graphPanel);
+					graphPanel.append(this.generateSlices(svgConfig));
 				}
 
 				this.bindEvent(svg, 'click', 'PATH', [svgConfig.clickCallback]);
@@ -226,16 +233,12 @@
 				});
 	
 				// construct title
-				if (config.title) {
-					var width = 2 * Math.sqrt(Math.pow(config.insideR, 2) / 2),
-						height = width;
-					this.constructTitle(width, height, config.title).appendTo(graph);
-				}
+				var width = 2 * Math.sqrt(Math.pow(config.insideR, 2) / 2),
+					height = width;
+				this.constructTitle(width, height, config.title).appendTo(graph);
 	
 				// consturct svg
 				this.constructSvg(config).appendTo(graph);
-		
-
 
 				return graph;
 			}

@@ -13,7 +13,7 @@
 	<script src='../node_modules/jquery/dist/jquery.js'></script>
 
 	<script type='text/javascript'>
-		requirejs(['../dist/awesome-pie-chart.min'], function(PieChart) {
+		requirejs(['../awesome-pie-chart'], function(PieChart) {
 			var pieChart = new PieChart({
 				'relativePos': 'top',
 				'graph': {
@@ -22,7 +22,10 @@
 					'rotation': 0,
 					'space': 0,
 					'title': '<span>80<span style="font-size: 20px;">%</span></span>',
-					'slices': [],
+					'slices': [{
+						'name': 'slice1',
+						'percent': 1
+					}],
 					'clickCallback': function(name) {console.log('click:' + name);},
 					'mouseOverCallback': function(name) {console.log('over:' + name);},
 					'mouseOutCallback': function(name) {console.log('leave:' + name);}
@@ -47,10 +50,10 @@
 				pieChart.fresh({
 					'slices': [{
 						'name': 'slice1',
-					    'percent': 1 
+					    'percent': 0.5 
 					}, {
 						'name': 'slice2',
-						'percent': 0
+						'percent': 0.5
 					}],
 					'items': [{
 						'name': 'item1',
