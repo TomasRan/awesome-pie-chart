@@ -162,7 +162,7 @@
 							'data-angle': item.angle
 						}).css({
 							'fill': item.color || allotColor(i),
-							'stroke': config.strokeColor || item.color || allotColor(i),
+							//'stroke': config.strokeColor || item.color || allotColor(i),
 							'strokeWidth': config.strokeWidth || 0,
 							'cursor': cursor 
 						})
