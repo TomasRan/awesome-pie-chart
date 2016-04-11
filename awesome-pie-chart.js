@@ -286,7 +286,7 @@
 					break;
 				default:
 					break;
-			};
+			}
 
 			self.el = $(document.createElement('div')).attr({
 				'class': self.args.className
@@ -316,14 +316,16 @@
 			var items = {};
 
 			// fresh title
-			data.title ? $(self.el.find('p')).html(data.title) : null;
+			if (data.title) {
+				$(self.el.find('p')).html(data.title);
+			}
 
 			// fresh slices
 			$.each(data.slices, function(i, slice) {
 				slices[slice.name] = {
 					'angle': slice.percent * 360,
 					'color': slice.color
-				}
+				};
 			});
 
 			var startAngle = 0;
@@ -381,16 +383,22 @@
 				var name = $(li).attr('data-name');
 
 				if (items[name]) {
-					items[name].content ? $(li).html(items[name].content) : null;
-					items[name].background ? $(li).css('background', items[name].background) : null;
-					items[name].className ? $(li).attr('class', items[name].className) : null;
+					if (items[name].content) {
+						$(li).html(items[name].content);
+					}
+					if (items[name].background) {
+						$(li).css('background', items[name].background);
+					}
+					if (items[name].className) {
+						$(li).attr('class', items[name].className);
+					}
 					delete items[name];
 				}
 			});
 
-			for (var prop in items) {
-				if (items.hasOwnProperty(prop)) {
-					createDescItems(items[prop], description.callback).appendTo(self.el.find('ul'));
+			for (var item in items) {
+				if (items.hasOwnProperty(item)) {
+					createDescItems(items[item], description.callback).appendTo(self.el.find('ul'));
 				}
 			}
 		}
