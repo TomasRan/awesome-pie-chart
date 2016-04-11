@@ -1,11 +1,11 @@
-engine:
+engines:
     eslint:
         enabled: true
     csslint:
         enabled: true
     scsslint:
         enabled: true
-rattings:
+ratings:
     paths:
     - "**/*"
 exclude_paths:
