@@ -147,7 +147,7 @@
 				var cursor = config.clickCallback ? 'pointer' : 'auto';
 
 				$.each(config.slices, function(i, item) {
-					var space = itemSpace[item.angle] || config.space; 
+					var space = item.angle === 0 ? item.angle : config.space; 
 
 					if (item.angle === ROUND_ANGLE) {
 						stopAngle = ROUND_ANGLE;
@@ -162,7 +162,7 @@
 							'data-angle': item.angle
 						}).css({
 							'fill': item.color || allotColor(i),
-							//'stroke': config.strokeColor || item.color || allotColor(i),
+							'stroke': config.strokeColor || item.color || allotColor(i),
 							'strokeWidth': config.strokeWidth || 0,
 							'cursor': cursor 
 						})
