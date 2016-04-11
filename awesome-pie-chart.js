@@ -64,6 +64,8 @@
 		root.PieChart = factory(root.jQuery);
 	}
 })(window || {}, function($) {
+	var ROUND_ANGLE = 360;
+
 	// default color allotment
 	var allotColor = function(i) {
 		var colorPool = ['E32322', 'EA621F', 'F18E1C', 'FDC60B', 'F4E500', '8CBB26', '008E5B', '0696BB', '2A71B0', '444E99', '6D398B', 'C4037D'];
@@ -147,15 +149,23 @@
 
 				if (svgConfig.slices && svgConfig.slices.length === 0) {
 					this.createElement('path').attr({
-						'd': this.getSectionalPath(0, 360, svgConfig.insideR, svgConfig.outsideR)
+						'd': this.getSectionalPath(0, ROUND_ANGLE, svgConfig.insideR, svgConfig.outsideR)
 					}).css({
 						'fill': '#d9d9d9'
 					}).appendTo(graphPanel);
 				} else {
 					var startAngle = 0;
+					var stopAngle = 0;
 
 					$.each(svgConfig.slices, function(i, item) {
-						var stopAngle = item.angle === 0 ? startAngle : (item.angle === 360 ? 360 : startAngle + item.angle - svgConfig.space);
+						var space = item.angle === 0 ? 0 : svgConfig.space; 
+
+						if (item.angle === ROUND_ANGLE) {
+							stopAngle = ROUND_ANGLE;
+						} else {
+							stopAngle = startAngle + item.angle - space;	
+						}
+
 						pieChartGenerator.svg.createElement('path').attr({
 							'd': pieChartGenerator.svg.getSectionalPath(startAngle, stopAngle, svgConfig.insideR, svgConfig.outsideR),
 							'data-name': item.name,
@@ -224,7 +234,7 @@
 		}, args.graph);
 	
 		$.each(this.args.graph.slices, function(i, item) {
-			item.angle = (item.percent || 0) * 360;
+			item.angle = (item.percent || 0) * ROUND_ANGLE;
 		});
 	}
 	
@@ -324,7 +334,7 @@
 
 			$.each(slices, function(i, slice) {
 				slicesRecord[slice.name] = {
-					'angle': slice.percent * 360,
+					'angle': slice.percent * ROUND_ANGLE,
 					'color': slice.color
 				};
 			});
@@ -336,7 +346,7 @@
 
 				if (name) {
 					var angle = slicesRecord[name]  === undefined ? parseFloat($(path).attr('angle')) : slicesRecord[name].angle;
-					var stopAngle = angle === 0 ? startAngle : (angle === 360 ? 360 : startAngle + angle - graph.space);
+					var stopAngle = angle === 0 ? startAngle : (angle === ROUND_ANGLE ? ROUND_ANGLE : startAngle + angle - graph.space);
 
 					$(path).attr({
 						'd': pieChartGenerator.svg.getSectionalPath(startAngle, stopAngle, graph.insideR, graph.outsideR),
