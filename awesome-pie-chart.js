@@ -312,27 +312,18 @@
 	PieChart.prototype = {
 		constructor: PieChart,
 
-		fresh: function(data) {
-			if (!data) {
-				return null;
-			}
+		freshTitle: function(title) {
+			$(this.el.find('p')).html(title);
+		},
 
+		freshGraph: function(slices) {
 			var self = this;
-			var graph = self.args.graph;
-			var description = self.args.description;
 			var paths = self.el.find('path');
-			var lis = self.el.find('li');
-			var slices = {};
-			var items = {};
+			var graph = self.args.graph;
+			var slicesRecord= {};
 
-			// fresh title
-			if (data.title) {
-				$(self.el.find('p')).html(data.title);
-			}
-
-			// fresh slices
-			$.each(data.slices, function(i, slice) {
-				slices[slice.name] = {
+			$.each(slices, function(i, slice) {
+				slicesRecord[slice.name] = {
 					'angle': slice.percent * 360,
 					'color': slice.color
 				};
@@ -344,7 +335,7 @@
 				var name = $(path).attr('data-name');
 
 				if (name) {
-					var angle = slices[name]  === undefined ? parseFloat($(path).attr('angle')) : slices[name].angle;
+					var angle = slicesRecord[name]  === undefined ? parseFloat($(path).attr('angle')) : slicesRecord[name].angle;
 					var stopAngle = angle === 0 ? startAngle : (angle === 360 ? 360 : startAngle + angle - graph.space);
 
 					$(path).attr({
@@ -353,35 +344,41 @@
 					});
 
 					startAngle += angle;
-					delete slices[name];
+					delete slicesRecord[name];
 				} else {
 					$(path).remove();
 				}
 			});
 
 			var i = 0;
-			for (var prop in slices) {
-				if (slices.hasOwnProperty(prop))	 {
-					var stopAngle = startAngle + slices[prop].angle;
+			for (var prop in slicesRecord) {
+				if (slicesRecord.hasOwnProperty(prop))	 {
+					var stopAngle = startAngle + slicesRecord[prop].angle;
 
 					pieChartGenerator.svg.createElement('path').attr({
 						'd': pieChartGenerator.svg.getSectionalPath(startAngle, stopAngle, graph.insideR, graph.outsideR),
 						'data-name': prop,
-						'data-angle': slices[prop].angle
+						'data-angle': slicesRecord[prop].angle
 					}).css({
-						'fill': slices[prop].color || allotColor(i),
-						'stroke': graph.strokeColor || slices[prop].color || allotColor(i),
+						'fill': slicesRecord[prop].color || allotColor(i),
+						'stroke': graph.strokeColor || slicesRecord[prop].color || allotColor(i),
 						'stokeWidth': graph.strokeColor ? graph.strokeWidth : 0,
 						'cursor': graph.clickCallback ? 'pointer' : 'auto'
 					}).appendTo(self.el.find('g'));
-					startAngle += slices[prop].angle;
+					startAngle += slicesRecord[prop].angle;
 					i++;
 				}
 			}
+		},
 
-			// fresh items
-			$.each(data.items, function(i, item) {
-				items[item.name] = {
+		freshDesc: function(items) {
+			var self = this;
+			var description = self.args.description;
+			var lis = self.el.find('li');
+			var itemsRecord = {};
+
+			$.each(items, function(i, item) {
+				itemsRecord[item.name] = {
 					'name': item.name,
 					'className': item.className,
 					'background': item.background,
@@ -392,23 +389,41 @@
 			$.each(lis, function(i, li) {
 				var name = $(li).attr('data-name');
 
-				if (items[name]) {
-					if (items[name].content) {
-						$(li).html(items[name].content);
+				if (itemsRecord[name]) {
+					if (itemsRecord[name].content) {
+						$(li).html(itemsRecord[name].content);
 					}
-					if (items[name].background) {
-						$(li).css('background', items[name].background);
+					if (itemsRecord[name].background) {
+						$(li).css('background', itemsRecord[name].background);
 					}
-					if (items[name].className) {
-						$(li).attr('class', items[name].className);
+					if (itemsRecord[name].className) {
+						$(li).attr('class', itemsRecord[name].className);
 					}
-					delete items[name];
+					delete itemsRecord[name];
 				}
 			});
 
-			for (var item in items) {
-				if (items.hasOwnProperty(item)) {
-					createDescItems(items[item], description.callback).appendTo(self.el.find('ul'));
+			for (var prop in itemsRecord) {
+				if (itemsRecord.hasOwnProperty(prop)) {
+					createDescItems(itemsRecord[prop], description.callback).appendTo(self.el.find('ul'));
+				}
+			}
+		},
+
+		fresh: function(updateData) {
+			if (updateData) {
+				var self = this;
+				
+				if (updateData.title) {
+					this.freshTitle(updateData.title);
+				}
+
+				if (updateData.slices) {
+					this.freshGraph(updateData.slices);
+				}
+
+				if (updateData.items) {
+					this.freshDesc(updateData.items);
 				}
 			}
 		}
