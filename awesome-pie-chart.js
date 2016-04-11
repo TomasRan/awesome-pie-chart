@@ -192,7 +192,7 @@
 						eventEntrust(pNode, eventType, cName, callback);
 					}		
 				});
-			}
+			},
 
 			getGraph: function(config) {
 				// outermost container
