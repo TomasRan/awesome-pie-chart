@@ -122,6 +122,21 @@
 				'Z'].join(' ');
 			},
 
+			constructTransform: function(config) {
+				return 'translate(' +
+					config.outsideR +
+				   	',' + 
+					config.outsideR +
+					') rotate(' +
+					config.rotation +
+					') scale(' +
+					(config.flipY ? '-1' : '1') +
+					',' +
+					(config.flipX ? '-1' : '1') +
+					')';
+										
+			},
+
 			constructTitle: function(width, height, title) {
 				return $(document.createElement('p')).css({
 					'margin': 0,
@@ -143,7 +158,7 @@
 					'height': svgConfig.outsideR * 2 + 'px'
 				});
 				var graphPanel = this.createElement('g').attr({
-					'transform': 'translate(' + svgConfig.outsideR + ',' + svgConfig.outsideR + ') rotate(' + svgConfig.rotation + ') scale(' + (svgConfig.flipY ? '-1': '1') + ',' + (svgConfig.flipX ? '-1' : '1') + ')'
+					'transform': this.constructTransform(svgConfig)
 				}).appendTo(svg);
 
 				if (svgConfig.slices && svgConfig.slices.length === 0) {
@@ -172,7 +187,7 @@
 						}).css({
 							'fill': item.color || allotColor(i),
 							'stroke': svgConfig.strokeColor || item.color || allotColor(i),
-							'strokeWidth': svgConfig.strokeColor ? svgConfig.strokeWidth : 0,
+							'strokeWidth': svgConfig.strokeWidth || 0,
 							'cursor': svgConfig.clickCallback ? 'pointer' : 'auto'
 						}).appendTo(graphPanel);
 						startAngle += item.angle;
@@ -186,7 +201,7 @@
 				return svg;
 			},
 
-			bindEvent: function(pNode, eventType, cName, callback) {
+			bindEvent: function(pNode, eventType, cName, cbArr) {
 				$.each(cbArr, function(i, callback) {
 					if (callback) {
 						eventEntrust(pNode, eventType, cName, callback);
