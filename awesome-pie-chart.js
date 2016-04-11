@@ -146,8 +146,7 @@
 					360: 0
 				};
 
-				for (var i = 0; i < config.slices.length; i++) {
-					var item = config.slices[i];
+				$.each(config.slices, function(i, item) {
 					var space = itemSpace[item.angle] || config.space; 
 
 					if (item.angle === ROUND_ANGLE) {
@@ -169,7 +168,7 @@
 						})
 					);
 					startAngle += item.angle;
-				}
+				});
 
 				return slices;
 			},
