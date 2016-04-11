@@ -140,6 +140,7 @@
 				var startAngle = 0;
 				var stopAngle = 0;
 				var slices = [];
+				var cursor = config.callback ? 'pointer' : 'auto';
 
 				$.each(config.slices, function(i, item) {
 					var space = item.angle === 0 ? 0 : config.space; 
@@ -159,7 +160,7 @@
 							'fill': item.color || allotColor(i),
 							'stroke': config.strokeColor || item.color || allotColor(i),
 							'strokeWidth': config.strokeWidth || 0,
-							'cursor': config.clickCallback ? 'pointer' : 'auto'
+							'cursor': cursor 
 						})
 					);
 					startAngle += item.angle;
