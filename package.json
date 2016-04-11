@@ -2,11 +2,14 @@
   "name": "awesome-pie-chart",
   "version": "0.2.0",
   "description": "pie chart",
-  "main": "./pie-chart.js",
+  "main": "./awesome-pie-chart.js",
   "dependencies": {
     "jquery": "^2.2.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-uglify": "^1.0.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,9 +18,9 @@
     "url": "git+https://github.com/TomasRan/pie-chart.git"
   },
   "keywords": [
+    "awesome-pie-chart",
     "pie-chart",
-	"pie",
-	"chart"
+    "pie"
   ],
   "author": "tomasran",
   "license": "MIT",

@@ -1,5 +1,7 @@
 # awesome-pie-chart
 
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+
 Here is the pie chart.<br/>
 You can customize your own pie chart. Extended space is provided. <br/>
 Commit issues or requirements [here](https://github.com/TomasRan/awesome-pie-chart/issues).<br/>
