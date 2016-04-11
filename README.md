@@ -1,4 +1,5 @@
-# awesome-pie-chart
+# awesome-pie-chart [![Coverage Status](https://coveralls.io/repos/github/TomasRan/awesome-pie-chart/badge.svg?branch=master)](https://coveralls.io/github/TomasRan/awesome-pie-chart?branch=master)
+
 Here is the pie chart.<br/>
 You can customize your own pie chart. Extended space is provided. <br/>
 Commit issues or requirements [here](https://github.com/TomasRan/awesome-pie-chart/issues).<br/>
