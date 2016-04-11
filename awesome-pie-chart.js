@@ -79,7 +79,7 @@
 			if (target.nodeName.toUpperCase() === childNodeName.toUpperCase()) {
 				var name = $(target).attr('data-name');
 				if (name  && callback) {
-					callback(name);
+					return callback(name);
 				}
 			}
 		});
@@ -240,7 +240,7 @@
 			'position': 'relative'
 		}).on('click', function() {
 			if (callback) {
-				callback(item.name);	
+				return callback(item.name);	
 			}
 		}).html(item.content);
 	}
