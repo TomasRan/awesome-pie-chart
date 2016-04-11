@@ -120,6 +120,71 @@
 				'Z'].join(' ');
 			},
 
+			constructTitle: function(width, height, title) {
+				return $(document.createElement('p')).css({
+					'margin': 0,
+					'width': width + 'px',
+					'height': height + 'px',
+					'position': 'absolute',
+					'margin-left': -(width / 2) + 'px',
+					'margin-top': -(height / 2) + 'px',
+					'line-height': height + 'px',
+					'left': '50%',
+					'top': '50%',
+					'text-align': 'center'
+				}).html(title);
+			},
+
+			constructSvg: function(svgConfig) {
+				var svg = this.createElement('svg').css({
+					'width': svgConfig.outsideR * 2 + 'px',
+					'height': svgConfig.outsideR * 2 + 'px'
+				});
+
+				var graphPanel = this.createElement('g').attr({
+					'transform': 'translate(' + svgConfig.outsideR + ',' + svgConfig.outsideR + ') rotate(' + svgConfig.rotation + ') scale(' + (svgConfig.flipY ? '-1': '1') + ',' + (svgConfig.flipX ? '-1' : '1') + ')'
+				}).appendTo(svg);
+
+				if (svgConfig.slices && svgConfig.slices.length === 0) {
+					this.createElement('path').attr({
+						'd': this.getSectionalPath(0, 360, svgConfig.insideR, svgConfig.outsideR)
+					}).css({
+						'fill': '#d9d9d9'
+					}).appendTo(graphPanel);
+				} else {
+					var startAngle = 0;
+
+					$.each(svgConfig.slices, function(i, item) {
+						var stopAngle = item.angle === 0 ? startAngle : (item.angle === 360 ? 360 : startAngle + item.angle - svgConfig.space);
+						pieChartGenerator.svg.createElement('path').attr({
+							'd': pieChartGenerator.svg.getSectionalPath(startAngle, stopAngle, svgConfig.insideR, svgConfig.outsideR),
+							'data-name': item.name,
+							'data-angle': item.angle
+						}).css({
+							'fill': item.color || allotColor(i),
+							'stroke': svgConfig.strokeColor || item.color || allotColor(i),
+							'strokeWidth': svgConfig.strokeColor ? svgConfig.strokeWidth : 0,
+							'cursor': svgConfig.clickCallback ? 'pointer' : 'auto'
+						}).appendTo(graphPanel);
+							startAngle += item.angle;
+					});
+				}
+
+				if (svgConfig.clickCallback) {
+					eventEntrust(svg, 'click', 'PATH', svgConfig.clickCallback);
+				}
+
+				if (svgConfig.mouseOverCallback) {
+					eventEntrust(svg, 'mouseover', 'PATH', svgConfig.mouseOverCallback);
+				}
+
+				if (svgConfig.mouseOutCallback) {
+					eventEntrust(svg, 'mouseout', 'PATH', svgConfig.mouseOutCallback);
+				}
+
+				return svg;
+			},
+
 			getGraph: function(config) {
 				// outermost container
 				var graph = $(document.createElement('div')).attr({
@@ -133,68 +198,13 @@
 				if (config.title) {
 					var width = 2 * Math.sqrt(Math.pow(config.insideR, 2) / 2),
 						height = width;
-					$(document.createElement('p')).css({
-						'margin': 0,
-						'width': width + 'px',
-						'height': height + 'px',
-						'position': 'absolute',
-						'margin-left': -(width / 2) + 'px',
-						'margin-top': -(height / 2) + 'px',
-						'line-height': height + 'px',
-						'left': '50%',
-						'top': '50%',
-						'text-align': 'center'
-					}).html(config.title).appendTo(graph);
+					this.constructTitle(width, height, config.title).appendTo(graph);
 				}
 	
 				// consturct svg
-				var svg = pieChartGenerator.svg.createElement('svg').css({
-					'width': config.outsideR * 2 + 'px',
-					'height': config.outsideR * 2 + 'px'
-				}).appendTo(graph);
+				this.constructSvg(config).appendTo(graph);
 		
-				var transform = 'translate(' + config.outsideR + ',' + config.outsideR + ') rotate(' + config.rotation + ') scale(' + (config.flipY ? '-1': '1') + ',' + (config.flipX ? '-1' : '1') + ')';
-				var graphPanel = pieChartGenerator.svg.createElement('g').attr({
-					'transform': transform
-				}).appendTo(svg);
 
-				if (config.slices && config.slices.length === 0) {
-					pieChartGenerator.svg.createElement('path').attr({
-						'd': pieChartGenerator.svg.getSectionalPath(0, 360, config.insideR, config.outsideR)
-					}).css({
-						'fill': '#d9d9d9'
-					}).appendTo(graphPanel);
-				} else {
-					var startAngle = 0;
-
-					$.each(config.slices, function(i, item) {
-						var stopAngle = item.angle === 0 ? startAngle : (item.angle === 360 ? 360 : startAngle + item.angle - config.space);
-						pieChartGenerator.svg.createElement('path').attr({
-							'd': pieChartGenerator.svg.getSectionalPath(startAngle, stopAngle, config.insideR, config.outsideR),
-							'data-name': item.name,
-							'data-angle': item.angle
-						}).css({
-							'fill': item.color || allotColor(i),
-							'stroke': config.strokeColor || item.color || allotColor(i),
-							'strokeWidth': config.strokeColor ? config.strokeWidth : 0,
-							'cursor': config.clickCallback ? 'pointer' : 'auto'
-						}).appendTo(graphPanel);
-							startAngle += item.angle;
-					});
-					
-				}
-
-				if (config.clickCallback) {
-					eventEntrust(svg, 'click', 'PATH', config.clickCallback);
-				}
-
-				if (config.mouseOverCallback) {
-					eventEntrust(svg, 'mouseover', 'PATH', config.mouseOverCallback);
-				}
-
-				if (config.mouseOutCallback) {
-					eventEntrust(svg, 'mouseout', 'PATH', config.mouseOutCallback);
-				}
 
 				return graph;
 			}
