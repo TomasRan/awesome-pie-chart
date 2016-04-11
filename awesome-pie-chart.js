@@ -142,7 +142,6 @@
 					'width': svgConfig.outsideR * 2 + 'px',
 					'height': svgConfig.outsideR * 2 + 'px'
 				});
-
 				var graphPanel = this.createElement('g').attr({
 					'transform': 'translate(' + svgConfig.outsideR + ',' + svgConfig.outsideR + ') rotate(' + svgConfig.rotation + ') scale(' + (svgConfig.flipY ? '-1': '1') + ',' + (svgConfig.flipX ? '-1' : '1') + ')'
 				}).appendTo(svg);
@@ -176,24 +175,24 @@
 							'strokeWidth': svgConfig.strokeColor ? svgConfig.strokeWidth : 0,
 							'cursor': svgConfig.clickCallback ? 'pointer' : 'auto'
 						}).appendTo(graphPanel);
-							startAngle += item.angle;
+						startAngle += item.angle;
 					});
 				}
 
-				if (svgConfig.clickCallback) {
-					eventEntrust(svg, 'click', 'PATH', svgConfig.clickCallback);
-				}
-
-				if (svgConfig.mouseOverCallback) {
-					eventEntrust(svg, 'mouseover', 'PATH', svgConfig.mouseOverCallback);
-				}
-
-				if (svgConfig.mouseOutCallback) {
-					eventEntrust(svg, 'mouseout', 'PATH', svgConfig.mouseOutCallback);
-				}
+				this.bindEvent(svg, 'click', 'PATH', [svgConfig.clickCallback]);
+				this.bindEvent(svg, 'mouseover', 'PATH', [svgConfig.mouseOverCallback]);
+				this.bindEvent(svg, 'mouseout', 'PATH', [svgConfig.mouseOutCallback]);
 
 				return svg;
 			},
+
+			bindEvent: function(pNode, eventType, cName, callback) {
+				$.each(cbArr, function(i, callback) {
+					if (callback) {
+						eventEntrust(pNode, eventType, cName, callback);
+					}		
+				});
+			}
 
 			getGraph: function(config) {
 				// outermost container
