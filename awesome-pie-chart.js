@@ -148,11 +148,14 @@
 
 				$.each(config.slices, function(i, item) {
 					var space = spaceSelector[item.angle] || config.space;
-					var strokeColor = allotColor(i);
+					var fillColor = allotColor(i);
+					var strokeColor = config.strokeColor || item.color || allotColor(i);
 
-					if (config.strokeColor || item.color) {
-						strokeColor = config.strokeColor || item.color;
-					}
+					/*if (config.strokeColor || item.color) {
+						strokeColor = config.strokeColor ;
+					} else if (item.color) {
+						strokeColor = item.color;
+					}*/
 
 					stopAngle = startAngle + item.angle - space;
 
@@ -162,9 +165,9 @@
 							'data-name': item.name,
 							'data-angle': item.angle
 						}).css({
-							'fill': item.color || allotColor(i),
+							'fill': fillColor,
 							'stroke': strokeColor,
-							'strokeWidth': config.strokeWidth || 0,
+							'strokeWidth': config.strokeWidth,
 							'cursor': cursor 
 						})
 					);
@@ -249,7 +252,7 @@
 	function argsCheck(args) {
 		this.args = args;
 		this.args.graph = $.extend({
-			'strokeWidth': args.strokeWidth || 1,
+			'strokeWidth': args.strokeWidth || 0,
 			'space': 0,
 			'outsideR': 0,
 			'insideR': 0,
