@@ -148,6 +148,8 @@
 
 					if (config.strokeColor) {
 						strokeColor = config.strokeColor;
+					} else if (item.color) {
+						strokeColor = item.color;
 					}
 
 					if (item.angle === ROUND_ANGLE) {
