@@ -141,9 +141,14 @@
 				var stopAngle = 0;
 				var slices = [];
 				var cursor = config.clickCallback ? 'pointer' : 'auto';
+				var ST = {
+					0: 0,
+					360: 0
+				};
 
 				$.each(config.slices, function(i, item) {
-					var space = item.angle === 0 ? item.angle : config.space; 
+					//var space = item.angle === 0 ? item.angle : config.space; 
+					var space = ST[item.angle] || config.space;
 					var strokeColor = allotColor(i);
 
 					if (config.strokeColor) {
@@ -152,11 +157,12 @@
 						strokeColor = item.color;
 					}
 
-					if (item.angle === ROUND_ANGLE) {
+					/*if (item.angle === ROUND_ANGLE) {
 						stopAngle = ROUND_ANGLE;
 					} else {
 						stopAngle = startAngle + item.angle - space;	
-					}
+					}*/
+					stopAngle = startAngle + item.angle - space;
 
 					slices.push(
 						pieChartGenerator.svg.createElement('path').attr({
