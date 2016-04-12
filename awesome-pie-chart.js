@@ -140,15 +140,15 @@
 				var startAngle = 0;
 				var stopAngle = 0;
 				var slices = [];
-				var itemSpace = {
-					0 : 0,
-					360: 0
-				};
 				var cursor = config.clickCallback ? 'pointer' : 'auto';
 
 				$.each(config.slices, function(i, item) {
 					var space = item.angle === 0 ? item.angle : config.space; 
-					var strokeColor = config.strokeColor || item.color;
+					var strokeColor = allotColor(i);
+
+					if (config.strokeColor) {
+						strokeColor = config.strokeColor;
+					}
 
 					if (item.angle === ROUND_ANGLE) {
 						stopAngle = ROUND_ANGLE;
@@ -163,7 +163,7 @@
 							'data-angle': item.angle
 						}).css({
 							'fill': item.color || allotColor(i),
-							'stroke': strokeColor || allotColor(i),
+							'stroke': strokeColor,
 							'strokeWidth': config.strokeWidth || 0,
 							'cursor': cursor 
 						})
