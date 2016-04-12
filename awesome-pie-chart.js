@@ -141,27 +141,19 @@
 				var stopAngle = 0;
 				var slices = [];
 				var cursor = config.clickCallback ? 'pointer' : 'auto';
-				var ST = {
+				var spaceSelector = {
 					0: 0,
 					360: 0
 				};
 
 				$.each(config.slices, function(i, item) {
-					//var space = item.angle === 0 ? item.angle : config.space; 
-					var space = ST[item.angle] || config.space;
+					var space = spaceSelector[item.angle] || config.space;
 					var strokeColor = allotColor(i);
 
-					if (config.strokeColor) {
-						strokeColor = config.strokeColor;
-					} else if (item.color) {
-						strokeColor = item.color;
+					if (config.strokeColor || item.color) {
+						strokeColor = config.strokeColor || item.color;
 					}
 
-					/*if (item.angle === ROUND_ANGLE) {
-						stopAngle = ROUND_ANGLE;
-					} else {
-						stopAngle = startAngle + item.angle - space;	
-					}*/
 					stopAngle = startAngle + item.angle - space;
 
 					slices.push(
