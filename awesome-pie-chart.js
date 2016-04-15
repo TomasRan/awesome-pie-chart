@@ -151,12 +151,6 @@
 					var fillColor = allotColor(i);
 					var strokeColor = config.strokeColor || item.color || allotColor(i);
 
-					/*if (config.strokeColor || item.color) {
-						strokeColor = config.strokeColor ;
-					} else if (item.color) {
-						strokeColor = item.color;
-					}*/
-
 					stopAngle = startAngle + item.angle - space;
 
 					slices.push(
@@ -179,7 +173,6 @@
 
 			constructTitle: function(width, height, title) {
 				return $(document.createElement('p')).css({
-					'margin': 0,
 					'width': width + 'px',
 					'height': height + 'px',
 					'position': 'absolute',
@@ -287,8 +280,6 @@
 			var descPanel = $(document.createElement('ul')).attr({
 				'class': config.className || ''
 			}).css({
-				'padding': 0,
-				'margin': 0,
 				'overflow': 'hidden'
 			});
 	
