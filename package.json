@@ -1,6 +1,6 @@
 {
   "name": "awesome-pie-chart",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "pie chart",
   "main": "./awesome-pie-chart.js",
   "dependencies": {
