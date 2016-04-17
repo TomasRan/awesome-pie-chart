@@ -1,6 +1,6 @@
 # awesome-pie-chart
 
-![](https://img.shields.io/badge/npm-0.3.0-blue.svg)
+![](https://img.shields.io/badge/npm-0.4.0-blue.svg)
 [![bitHound Overall Score](https://www.bithound.io/github/TomasRan/awesome-pie-chart/badges/score.svg)](https://www.bithound.io/github/TomasRan/awesome-pie-chart)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 [![Code Climate](https://codeclimate.com/github/TomasRan/awesome-pie-chart/badges/gpa.svg)](https://codeclimate.com/github/TomasRan/awesome-pie-chart)
