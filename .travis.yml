@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+    - "5"
+script: grunt
+branches:
+    except:
+    - branch
+    only:
+    - master
+    - gh-pages
